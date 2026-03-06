@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useCart } from "../contexts/CartContext";
 import { fetchProduct, NotFoundError } from "../api/products";
 import type { ProductResponse } from "../types/product";
 import styles from "./ProductDetailPage.module.css";
@@ -13,6 +14,7 @@ type FetchState =
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [state, setState] = useState<FetchState>({ status: "loading" });
+  const { dispatch } = useCart();
 
   useEffect(() => {
     if (!id) return;
@@ -61,6 +63,18 @@ export default function ProductDetailPage() {
 
   const product = state.data;
 
+  const handleAddToCart = () => {
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        imageUrl: product.imageUrl,
+      },
+    });
+  };
+
   return (
     <div className={styles.page}>
       <Link to="/" className={styles.backLink}>
@@ -97,6 +111,12 @@ export default function ProductDetailPage() {
               day: "numeric",
             })}
           </p>
+          <button
+            className={styles.addButton}
+            onClick={handleAddToCart}
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>

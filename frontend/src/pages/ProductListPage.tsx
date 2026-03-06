@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { fetchProducts } from "../api/products";
 import FilterSidebar from "../components/FilterSidebar";
 import ProductCard from "../components/ProductCard";
@@ -11,6 +12,7 @@ type FetchState =
   | { status: "success"; data: ProductResponse[] };
 
 export default function ProductListPage() {
+  const location = useLocation();
   const [state, setState] = useState<FetchState>({ status: "loading" });
   const [filters, setFilters] = useState<ProductFilters>({});
 
@@ -39,6 +41,12 @@ export default function ProductListPage() {
       <FilterSidebar onApply={setFilters} />
 
       <section className={styles.content}>
+        {location.state?.checkoutSuccess && (
+          <div className={styles.success}>
+            <p>✅ Order placed successfully! Thank you for your purchase.</p>
+          </div>
+        )}
+
         <h2 className={styles.heading}>Products</h2>
 
         {state.status === "loading" && (

@@ -32,6 +32,20 @@
   font-size: 0.95rem;
 }
 
+.success {
+  background: #d4edda;
+  color: #155724;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border: 1px solid #c3e6cb;
+}
+
+.success p {
+  margin: 0;
+  font-weight: 500;
+}
+
 @media (max-width: 768px) {
   .page {
     flex-direction: column;
